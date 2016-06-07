@@ -1,0 +1,39 @@
+---
+domain: mybluemix.net  
+applications:
+- name: MicroservicesCatalogAPI
+  memory: 256m
+  instances: 1
+  host: ms-catalog-${random-word}
+  path: Microservices_CatalogAPI
+  services:
+  - myServiceDiscovery
+  - myMicroservicesCloudant
+- name: MicroservicesOrdersAPI
+  host: ms-ordersAPI-${random-word}
+  path: Microservices_OrdersAPI
+  instances: 1
+  memory: 96M
+  services:
+  - myMicroservicesSQL
+- name: MicroservicesUI
+  memory: 256M
+  instances: 1
+  host: ms-UI-${random-word}
+  path: Microservices_UI
+  services:
+  - myServiceDiscovery
+
+declared-services:
+  myMicroservicesCloudant:
+    label: cloudantNoSQLDB
+    plan: Shared
+  myServiceDiscovery:
+    label: service_discovery
+    plan: free
+  mqLightService:
+    label: mqlight
+    plan:  standard
+  myMicroservicesSQL:
+    label: sqldb
+    plan:  sqldb_free
