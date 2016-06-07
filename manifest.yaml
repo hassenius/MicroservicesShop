@@ -15,7 +15,8 @@ applications:
   instances: 1
   memory: 96M
   services:
-  - myMicroservicesSQL
+  - myMicroservicesCloudant
+  - myServiceDiscovery
 - name: MicroservicesUI
   memory: 256M
   instances: 1
@@ -34,6 +35,6 @@ declared-services:
   mqLightService:
     label: mqlight
     plan:  standard
-  myMicroservicesSQL:
-    label: sqldb
-    plan:  sqldb_free
+  myMicroservicesCloudant:
+    label: cloudantNoSQLDB
+    plan:  Shared
