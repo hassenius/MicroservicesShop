@@ -7,5 +7,8 @@ git remote add -f Microservices_OrdersAPI git@github.com:hassenius/Microservices
 # Clone the project
 git subtree add --prefix Microservices_OrdersAPI Microservices_OrdersAPI
 
+# Push changes to subtree project
+
+# Push changes to root project
 
 
