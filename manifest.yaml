@@ -1,5 +1,8 @@
 ---
 domain: mybluemix.net  
+env:
+  NEW_RELIC_LICENSE_KEY: 25ee64c9f73c984b1b004ee4381f107ef0453b3a
+  NEWRELIC_LICENSE: 25ee64c9f73c984b1b004ee4381f107ef0453b3a
 applications:
 - name: MicroservicesCatalogAPI
   memory: 256m
@@ -9,6 +12,9 @@ applications:
   services:
   - myServiceDiscovery
   - myMicroservicesCloudant
+#  - New Relic
+  env: 
+    NEW_RELIC_APP_NAME: MicroserviesCatalogAPI
 - name: MicroservicesOrdersAPI
   random-route: true
   path: Microservices_OrdersAPI
@@ -17,6 +23,9 @@ applications:
   services:
   - myMicroservicesCloudant
   - myServiceDiscovery
+#  - New Relic
+  env: 
+    NEW_RELIC_APP_NAME: MicroservicesOrdersAPI
 - name: MicroservicesUI
   memory: 256M
   instances: 1
@@ -24,6 +33,7 @@ applications:
   path: Microservices_UI
   services:
   - myServiceDiscovery
+#  - New Relic
 
 declared-services:
   myMicroservicesCloudant:
