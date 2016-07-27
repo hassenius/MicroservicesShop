@@ -7,6 +7,7 @@ Call the MicroservicesCatalogAPI methods to generate internal server errors that
 up in logs and monitoring tools or other error analytics.
 
     -m      Include memory leak function. This will eventually crash the Catalog Microservice. Disabled by default
+    -d      Don't generate ReferenceError errors. Can be used if you only want to generate memory leaks (-m)
     -c      Number of loops to perform. Defaults to 100
     -h      Print this help screen.
 EOF
@@ -15,9 +16,10 @@ EOF
 # Initialize our own variables
 iterations=100
 leakMemory=false
+enableRefErrs=true
 
 # Get options
-while getopts "mhc:" opt; do
+while getopts "dmhc:" opt; do
     case "$opt" in
         h)
             show_usage
@@ -25,6 +27,9 @@ while getopts "mhc:" opt; do
             ;;
         m)
             leakMemory=true
+            ;;
+        d)
+            enableRefErrs=false
             ;;
         c)
             iterations=$OPTARG
@@ -53,8 +58,11 @@ echo
 for (( i=1; i<=$iterations; i++ ))
 do
     echo -e "\nIteration $i"
-    curl https://${url}/breakstuff/badMethod
-    curl https://${url}/breakstuff/findNemo
+    
+    if $enableRefErrs ; then
+      curl https://${url}/breakstuff/badMethod
+      curl https://${url}/breakstuff/findNemo
+    fi
     if $leakMemory ; then
         echo "Starting leaky thread"
         curl https://${url}/breakstuff/leakMemory &
