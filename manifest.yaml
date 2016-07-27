@@ -12,7 +12,7 @@ applications:
   - myMicroservicesCloudant
 #  - New Relic
   env: 
-    NEW_RELIC_APP_NAME: MicroserviesCatalogAPI
+    NEW_RELIC_APP_NAME: MicroservicesCatalogAPI
 - name: MicroservicesOrdersAPI
   host: ms-ordersAPI-${random-word}
   path: Microservices_OrdersAPI
