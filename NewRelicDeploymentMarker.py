@@ -1,7 +1,4 @@
 #!/usr/bin/python
-
-#APIKEY='3939a5fa202968a2668c4505cd502edd62237912c814fe1'
-
 import requests, json, os, argparse
 
 # Get API key if it is in shell environment
