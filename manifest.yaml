@@ -4,13 +4,13 @@ applications:
 - name: MicroservicesCatalogAPI
   memory: 256m
   instances: 1
-  host: ms-catalog-${random-word}
+  random-route: true 
   path: Microservices_CatalogAPI
   services:
   - myServiceDiscovery
   - myMicroservicesCloudant
 - name: MicroservicesOrdersAPI
-  host: ms-ordersAPI-${random-word}
+  random-route: true
   path: Microservices_OrdersAPI
   instances: 1
   memory: 96M
@@ -20,7 +20,7 @@ applications:
 - name: MicroservicesUI
   memory: 256M
   instances: 1
-  host: ms-UI-${random-word}
+  random-route: true
   path: Microservices_UI
   services:
   - myServiceDiscovery
