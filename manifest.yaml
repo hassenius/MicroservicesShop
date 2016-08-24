@@ -1,4 +1,5 @@
 ---
+inherit: new-relic.yaml
 domain: mybluemix.net  
 applications:
 - name: MicroservicesCatalogAPI
@@ -9,6 +10,9 @@ applications:
   services:
   - myServiceDiscovery
   - myMicroservicesCloudant
+#  - New Relic
+  env: 
+    NEW_RELIC_APP_NAME: MicroservicesCatalogAPI
 - name: MicroservicesOrdersAPI
   random-route: true
   path: Microservices_OrdersAPI
@@ -17,6 +21,9 @@ applications:
   services:
   - myMicroservicesCloudant
   - myServiceDiscovery
+#  - New Relic
+  env: 
+    NEW_RELIC_APP_NAME: MicroservicesOrdersAPI
 - name: MicroservicesUI
   memory: 256M
   instances: 1
@@ -24,6 +31,7 @@ applications:
   path: Microservices_UI
   services:
   - myServiceDiscovery
+#  - New Relic
 
 declared-services:
   myMicroservicesCloudant:

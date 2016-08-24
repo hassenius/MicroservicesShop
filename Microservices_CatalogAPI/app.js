@@ -1,3 +1,4 @@
+require('newrelic');
 var express = require('express');
 var bodyParser = require('body-parser');
 var cfenv = require("cfenv");
@@ -8,6 +9,8 @@ var cors = require('cors');
 var appEnv = cfenv.getAppEnv();
 cloudantService = appEnv.getService("myMicroservicesCloudant");
 var items = require('./routes/items');
+
+var breakstuff = require('./routes/breakstuff')
 
 //Setup ServiceDiscovery
 var serviceDiscovery = require('./sd.js')
@@ -29,6 +32,13 @@ app.get('/items/:id', items.find);
 app.post('/items', items.create);
 app.put('/items/:id', items.update);
 app.delete('/items/:id', items.remove);
+
+// Paths that will break stuff
+app.get('/breakstuff/leakMemory', breakstuff.leakMemory);
+app.get('/breakstuff/findUser/:username', breakstuff.findUser);
+app.get('/breakstuff/badMethod', breakstuff.someBadMethod);
+app.get('/breakstuff/findNemo', breakstuff.findNemo);
+
 
 app.listen(appEnv.port, appEnv.bind);
 console.log('App started on ' + appEnv.bind + ':' + appEnv.port);
