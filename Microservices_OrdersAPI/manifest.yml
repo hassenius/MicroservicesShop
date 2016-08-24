@@ -1,11 +1,14 @@
 ---
 applications:
-- services:
-  - myMicroservicesCloudant
-name: MicroservicesOrdersAPI
-path: .
-instances: 1
-memory: 96M
+#- services:
+#  - myMicroservicesCloudant
+- name: HybridMicroservicesOrdersAPI
+  #host: hybrid-ordersAPI-${random-word}
+  random-route: true
+  path: .
+  command: python app.py
+  instances: 1
+  memory: 96M
 
 declared-services:
   myMicroservicesCloudant:
