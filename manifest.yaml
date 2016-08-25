@@ -12,10 +12,11 @@ applications:
 - name: OrdersAPI
   random-route: true
   path: Microservices_OrdersAPI
+  command: python ./app.py
   instances: 1
   memory: 256M
   services:
-  - myMicroservicesCloudant
+  - mysql-OrdersDBService
   - myServiceDiscovery
 - name: MicroservicesUI
   memory: 256M
