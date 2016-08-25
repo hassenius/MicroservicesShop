@@ -1,9 +1,22 @@
 from flask import Flask, request, jsonify, send_from_directory
-import os
+from bluemix_service_discovery.service_publisher import ServicePublisher
+import os, json
 execfile('routes/orders.py')
-app = Flask(__name__, static_url_path='')
 
-port = int(os.getenv('VCAP_APP_PORT', 8080))
+vcap_application = json.loads(os.getenv('VCAP_APPLICATION'))
+port = vcap_application['port']
+my_url = vcap_application['application_uris'][0]
+#port = int(os.getenv('VCAP_APP_PORT', 8080))
+#my_url = os.getenv('VCAP_APPLICATION')['application_uris'][0]
+
+# Setup Service Registry
+sd_publisher = ServicePublisher('Orders', 300, 'UP',
+                             my_url, 'http',
+                             tags=['test'])
+sd_publisher.register_service(True)
+
+
+app = Flask(__name__, static_url_path='')
 @app.route('/')
 @app.route('/<path:path>')
 def index(path=None):
