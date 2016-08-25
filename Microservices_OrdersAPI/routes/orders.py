@@ -15,11 +15,11 @@ else:
 if not mysql:
   quit('Error: Could not find mysql credentials. Make sure the user-provided services is bound to the application')
   
-connection = pymysql.connect(host=mysql['host'], user=mysql['user'], password=mysql['password'], db=mysql['db'], cursorclass=pymysql.cursors.DictCursor)
+connection = pymysql.connect(host=str(mysql['host']), port=int(mysql['port']), user=str(mysql['user']), password=str(mysql['password']), db=str(mysql['db']), cursorclass=pymysql.cursors.DictCursor)
 
 def connect():
   global mysql, connection
-  connection = pymysql.connect(host=mysql['host'], user=mysql['user'], password=mysql['password'], db=mysql['db'], cursorclass=pymysql.cursors.DictCursor)
+  connection = pymysql.connect(host=str(mysql['host']), port=int(mysql['port']), user=str(mysql['user']), password=str(mysql['password']), db=str(mysql['db']), cursorclass=pymysql.cursors.DictCursor)
 
 def table_exist():
   global connection
