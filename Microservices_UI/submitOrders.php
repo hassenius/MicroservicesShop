@@ -26,7 +26,7 @@ function getServiceEndpoint($serviceName)
   
   $result_json = json_decode($result, true);
   
-  return $result_json["instances"][0]["metadata"]["url"];
+  return $result_json["instances"][0]["endpoint"]["value"];
 }
 
 $ordersHost = getServiceEndpoint("Orders");

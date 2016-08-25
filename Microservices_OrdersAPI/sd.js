@@ -20,7 +20,7 @@ discovery.register({
   "status": "UP",
   "endpoint": {
     "type": servicePort,
-    "value": serviceHost
+    "value": serviceUrl
     //"host": serviceHost,
     //"port": servicePort
   },
@@ -30,8 +30,13 @@ discovery.register({
     var intervalId = setInterval(function() {
       discovery.renew(service.id, function(error, response, service) {
         if (error || response.statusCode !== 200) {
-          console.log('Could not send heartbeat');
-          clearInterval(intervalId);
+          console.log('Could not send heartbeat, trying one more time');
+          discovery.renew(service.id, function(error, response, service) {
+            if (error || response.statusCode !== 200) {
+              console.log('Retry failed also. Giving up.')
+            }
+          }
+          );
         }
       });
     }, ttl * 1000 * 0.75);
