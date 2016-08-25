@@ -11,7 +11,7 @@ my_url = vcap_application['application_uris'][0]
 
 # Setup Service Registry
 sd_publisher = ServicePublisher('Orders', 300, 'UP',
-                             my_url, 'http',
+                             'https://' + my_url, 'http',
                              tags=['test'])
 sd_publisher.register_service(True)
 
