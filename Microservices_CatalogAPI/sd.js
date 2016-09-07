@@ -7,7 +7,7 @@ var ttl = 300;
 var serviceName = "Catalog";
 var serviceHost = appEnv.bind;
 var servicePort = "http"
-var serviceUrl = appEnv.url
+var serviceUrl = 'https://' + appEnv.url
 
 var ServiceDiscovery = require('bluemix-service-discovery');
 var discovery = new ServiceDiscovery({ name: 'myServiceDiscovery', auth_token: sdService.credentials.auth_token, url: sdService.credentials.url, version: 1 });
