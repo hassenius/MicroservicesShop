@@ -1,7 +1,7 @@
 ---
 domain: mybluemix.net  
 applications:
-- name: MicroservicesCatalogAPI
+- name: CatalogAPI
   memory: 256m
   instances: 1
   random-route: true 
@@ -9,11 +9,11 @@ applications:
   services:
   - myServiceDiscovery
   - myMicroservicesCloudant
-- name: MicroservicesOrdersAPI
+- name: OrdersAPI
   random-route: true
   path: Microservices_OrdersAPI
   instances: 1
-  memory: 96M
+  memory: 256M
   services:
   - myMicroservicesCloudant
   - myServiceDiscovery
@@ -32,9 +32,3 @@ declared-services:
   myServiceDiscovery:
     label: service_discovery
     plan: free
-  mqLightService:
-    label: mqlight
-    plan:  standard
-  myMicroservicesCloudant:
-    label: cloudantNoSQLDB
-    plan:  Shared
