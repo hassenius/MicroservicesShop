@@ -1,4 +1,5 @@
 ---
+inherit: new-relic.yaml
 domain: mybluemix.net  
 applications:
 - name: CatalogAPI
