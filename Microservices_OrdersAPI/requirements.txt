@@ -1,3 +1,4 @@
 pymysql
 flask
 bluemix_service_discovery
+newrelic

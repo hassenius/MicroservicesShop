@@ -28,6 +28,7 @@ applications:
   instances: 1
   random-route: true
   path: Microservices_UI
+  command: ./startwithnewrelic.sh app.py
   services:
   - myServiceDiscovery
   env:
