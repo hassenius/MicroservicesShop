@@ -122,10 +122,10 @@ stages:
       echo "Pushing Catalog API Microservice"
       cf push MicroservicesCatalogAPI
       echo "Getting OrderAPI URL"
-      OrderURL=$(cf app MicroservicesOrdersAPI | grep routes | awk '{print $2}')
+      OrderURL=$(cf routes | grep -i MicroservicesOrdersAPI | awk '{print $2}')
       echo "Detected ${OrderURL}"
       echo "Getting CatalogAPI URL"
-      CatalogURL=$(cf app MicroservicesCatalogAPI | grep routes | awk '{print $2}')
+      CatalogURL=$(cf routes | grep -i MicroservicesCatalogAPI | awk '{print $2}')
       echo "Detected ${CatalogURL}"
       cf push MicroservicesUI --no-start
       cf set-env MicroservicesUI OrderURL ${OrderURL}
