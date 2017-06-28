@@ -1,38 +1,6 @@
 <?php
-// Setup ServiceDiscovery
-$services = getenv("VCAP_SERVICES");
-$services_json = json_decode($services, true);
-$sd_url = $services_json["service_discovery"][0]["credentials"]["url"];
-$sd_token = $services_json["service_discovery"][0]["credentials"]["auth_token"];
-
-
-function getServiceEndpoint($serviceName)
-{
-  global $sd_token, $sd_url;
-  
-  $url = $sd_url . "/api/v1/instances?service_name=" . $serviceName;
-  
-  $curl = curl_init();
-  curl_setopt($curl, CURLOPT_URL, $url);
-  curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-  curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: Bearer " . $sd_token));
-  
-  $result = curl_exec($curl);
-  
-  curl_close($curl);
-  
-  $result_json = json_decode($result, true);
-  
-  return $result_json["instances"][0]["endpoint"]["value"];
-}
-
-$catalogHost = getServiceEndpoint("Catalog");
-
-$parsedURL = parse_url($catalogHost);
-// Force http for now
-#$catalogRoute = $parsedURL["scheme"] . "://" . $parsedURL["host"];
-$catalogRoute = "http://" . $parsedURL["host"];
+$catalogHost = getenv("CatalogURL");
+$catalogRoute = "https://" . $catalogHost;
 
 function CallAPI($method, $url)
 {

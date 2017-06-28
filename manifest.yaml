@@ -1,34 +1,37 @@
 ---
-domain: mybluemix.net  
 applications:
-- name: CatalogAPI
+- name: MicroservicesCatalogAPI
   memory: 256m
   instances: 1
   random-route: true 
   path: Microservices_CatalogAPI
   services:
-  - myServiceDiscovery
   - myMicroservicesCloudant
-- name: OrdersAPI
+  - NewRelic
+  env: 
+    NEW_RELIC_APP_NAME: MicroservicesCatalogAPI
+- name: MicroservicesOrdersAPI
   random-route: true
   path: Microservices_OrdersAPI
   instances: 1
-  memory: 256M
+  memory: 96M
   services:
   - myMicroservicesCloudant
-  - myServiceDiscovery
+  - NewRelic
+  env: 
+    NEW_RELIC_APP_NAME: MicroservicesOrdersAPI
 - name: MicroservicesUI
   memory: 256M
   instances: 1
   random-route: true
   path: Microservices_UI
   services:
-  - myServiceDiscovery
+  - NewRelic
 
 declared-services:
   myMicroservicesCloudant:
     label: cloudantNoSQLDB
-    plan: Shared
-  myServiceDiscovery:
-    label: service_discovery
-    plan: free
+    plan:  Lite
+  NewRelic:
+    label: newrelic
+    plan: standard

@@ -1,5 +1,6 @@
 /*globals cloudantService:true */
 /*eslint-env node */
+require('newrelic');
 var express = require('express');
 var bodyParser = require('body-parser');
 var cfenv = require("cfenv");
@@ -9,9 +10,6 @@ var appEnv = cfenv.getAppEnv();
 
 //Setup Cloudant Service.
 cloudantService = appEnv.getService("myMicroservicesCloudant");
-
-//Setup ServiceDiscovery
-var serviceDiscovery = require('./sd.js')
 
 //Setup middleware.
 var app = express();
