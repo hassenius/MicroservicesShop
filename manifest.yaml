@@ -7,6 +7,7 @@ applications:
   path: Microservices_CatalogAPI
   services:
   - myMicroservicesCloudant
+  - NewRelic
   env: 
     NEW_RELIC_APP_NAME: MicroservicesCatalogAPI
 - name: MicroservicesOrdersAPI
@@ -16,6 +17,7 @@ applications:
   memory: 96M
   services:
   - myMicroservicesCloudant
+  - NewRelic
   env: 
     NEW_RELIC_APP_NAME: MicroservicesOrdersAPI
 - name: MicroservicesUI
@@ -23,10 +25,13 @@ applications:
   instances: 1
   random-route: true
   path: Microservices_UI
-#  services:
-#  - New Relic
+  services:
+  - NewRelic
 
 declared-services:
   myMicroservicesCloudant:
     label: cloudantNoSQLDB
     plan:  Lite
+  NewRelic:
+    label: newrelic
+    plan: standard

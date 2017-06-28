@@ -91,45 +91,46 @@ stages:
       ls
       export
       # Create CF services
-      echo -e "${tools}${Cyan}  Creating Compose MySQL Service Instance${no_color}"
+      echo -e "${tools}${Cyan}  Creating Cloudant Service Instance${no_color}"
       t=0
-      #until [ $t -ge 5 ]
-      #do
-        #cf create-service compose-for-mysql Standard myComposeMySQL > /dev/null 2>&1 && break
-      #  t=$[$t+1]
-      #  sleep 15
-      #done
+      until [ $t -ge 5 ]
+      do
+        cf create-service cloudantNoSQLDB Lite myMicroservicesCloudant > /dev/null 2>&1 && break
+        t=$[$t+1]
+        sleep 15
+      done
+      echo -e "${tools}${Cyan}  Creating New Relic Service Instance${no_color}"
+      t=0
+      until [ $t -ge 5 ]
+      do
+        cf create-service newrelic standard NewRelic > /dev/null 2>&1 && break
+        t=$[$t+1]
+        sleep 15
+      done
 
-      if [ ${CF_REGION} == "AU" ]; then
-        echo -e "${crossbones}${Yellow}    Object Storage service not available in this region${no_color}"
-      else
-        echo -e "${tools}${Cyan}  Creating Openstack Swift Object Storage Service Instance${no_color}"
-        t=0
-      #  until [ $t -ge 5 ]
-      #  do
-      #    cf create-service Object-Storage standard myObjectStorage > /dev/null 2>&1 && break
-      #    t=$[$t+1]
-      #    sleep 15
-      #  done
-      #  while :
-      #  do
-      #    status=$(cf s | grep myObjectStorage | awk -F" " '{print $5, $6}')
-      #    if [[ "$status" == *"succeeded"* ]]
-      #    then
-      #      break
-      #    fi
-      #  done
-      #fi
-      #sleep 3m
-  - name: DeliverPresent
+  - name: Applications
     type: deployer
     target:
       url: ${CF_TARGET_URL}
       organization: ${CF_ORGANIZATION}
       space: ${CF_SPACE}
-      application: ${CF_APP}
+      application: MicroservicesUI
     script: |-
       #!/bin/bash
+      echo "Pushing OrderAPI Microservice"
+      cf push MicroservicesOrdersAPI
+      echo "Pushing Catalog API Microservice"
+      cf push MicroservicesCatalogAPI
+      echo "Getting OrderAPI URL"
+      OrderURL=$(cf app MicroservicesOrdersAPI | grep routes | awk '{print $2}')
+      echo "Detected ${OrderURL}"
+      echo "Getting CatalogAPI URL"
+      CatalogURL=$(cf app MicroservicesCatalogAPI | grep routes | awk '{print $2}')
+      echo "Detected ${CatalogURL}"
+      cf push MicroservicesUI --no-start
+      cf set-env MicroservicesUI OrderURL ${OrderURL}
+      cf set-env MicroservicesUI CatalogURL ${CatalogURL}
+      cf start MicroservicesUI
       #cf push "${CF_APP}"
       ls
       export

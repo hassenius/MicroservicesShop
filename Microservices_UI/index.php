@@ -1,15 +1,6 @@
 <?php
-// Setup ServiceDiscovery
-$services = getenv("VCAP_SERVICES");
-$services_json = json_decode($services, true);
-
-
-$catalogHost = getServiceEndpoint("Catalog");
-
-$parsedURL = parse_url($catalogHost);
-// Force http for now
-#$catalogRoute = $parsedURL["scheme"] . "://" . $parsedURL["host"];
-$catalogRoute = "http://" . $parsedURL["host"];
+$catalogHost = getenv("CatalogURL");
+$catalogRoute = "https://" . $catalogHost;
 
 function CallAPI($method, $url)
 {

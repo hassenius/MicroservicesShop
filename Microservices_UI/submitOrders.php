@@ -2,15 +2,10 @@
 
 $data = file_get_contents('php://input');
 
-// Setup ServiceDiscovery
-$services = getenv("VCAP_SERVICES");
-$services_json = json_decode($services, true);
-
-$ordersHost = getServiceEndpoint("Orders");
-
-$parsedURL = parse_url($ordersHost);
-$ordersRoute = $parsedURL["scheme"] . "://" . $parsedURL["host"];
+$ordersHost = getenv("OrderURL");
+$ordersRoute = "https://" . $ordersHost;
 $ordersURL = $ordersRoute . "/rest/orders";
+
 
 function httpPost($data,$url)
 {
