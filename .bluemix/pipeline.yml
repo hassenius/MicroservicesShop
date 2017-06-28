@@ -34,8 +34,6 @@ stages:
       #############
       git config --global user.email "pipeline@example.com"
       git config --global user.name "Pipeline Builder"
-      ls
-      export
 - name: DEPLOY
   inputs:
   - type: job
@@ -88,8 +86,6 @@ stages:
         echo -e "${tools}${Cyan}  Detected Region: Sydney${no_color}"
         export CF_REGION=AU
       fi
-      ls
-      export
       # Create CF services
       echo -e "${tools}${Cyan}  Creating Cloudant Service Instance${no_color}"
       t=0
@@ -143,18 +139,13 @@ stages:
       echo -e "${delivery} ${Cyan}Pushing Catalog API Microservice ${no_color}"
       cf push MicroservicesCatalogAPI
       echo -e "${delivery} ${Cyan}Getting OrderAPI URL ${no_color}"
-      OrderURL=$(cf routes | grep -i MicroservicesOrdersAPI | awk '{print $2}')
+      OrderURL=$(cf routes | grep -i MicroservicesOrdersAPI | awk '{OFS="." ; print $2,$3}')
       echo -e "${beer} ${Cyan}Detected ${OrderURL} ${no_color}"
       echo -e "${delivery} ${Cyan}Getting CatalogAPI URL ${no_color}"
-      CatalogURL=$(cf routes | grep -i MicroservicesCatalogAPI | awk '{print $2}')
+      CatalogURL=$(cf routes | grep -i MicroservicesCatalogAPI | awk '{OFS="." ; print $2,$3}')
       echo -e "${beer} ${Cyan}Detected ${CatalogURL} ${no_color}"
       echo -e "${delivery} ${Cyan}Pushing MicroservicesUI ${no_color}"
       cf push MicroservicesUI --no-start
       cf set-env MicroservicesUI OrderURL ${OrderURL}
       cf set-env MicroservicesUI CatalogURL ${CatalogURL}
       cf start MicroservicesUI
-      #cf push "${CF_APP}"
-      ls
-      export
-      # View logs
-      #cf logs "${CF_APP}" --recent
