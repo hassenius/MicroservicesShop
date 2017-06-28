@@ -117,16 +117,38 @@ stages:
       application: MicroservicesUI
     script: |-
       #!/bin/bash
-      echo "Pushing OrderAPI Microservice"
+      ##########
+      # Colors##
+      ##########
+      Green='\x1B[0;32m'
+      Red='\x1B[0;31m'
+      Yellow='\x1B[0;33m'
+      Cyan='\x1B[0;36m'
+      no_color='\x1B[0m' # No Color
+      beer='\xF0\x9f\x8d\xba'
+      delivery='\xF0\x9F\x9A\x9A'
+      beers='\xF0\x9F\x8D\xBB'
+      eyes='\xF0\x9F\x91\x80'
+      cloud='\xE2\x98\x81'
+      crossbones='\xE2\x98\xA0'
+      litter='\xF0\x9F\x9A\xAE'
+      fail='\xE2\x9B\x94'
+      harpoons='\xE2\x87\x8C'
+      tools='\xE2\x9A\x92'
+      present='\xF0\x9F\x8E\x81'
+      hourglass='\xE2\x8F\xB3'
+      #############
+      echo -e "${delivery} ${Cyan}Pushing OrderAPI Microservice ${no_color}"
       cf push MicroservicesOrdersAPI
-      echo "Pushing Catalog API Microservice"
+      echo -e "${delivery} ${Cyan}Pushing Catalog API Microservice ${no_color}"
       cf push MicroservicesCatalogAPI
-      echo "Getting OrderAPI URL"
+      echo -e "${delivery} ${Cyan}Getting OrderAPI URL ${no_color}"
       OrderURL=$(cf routes | grep -i MicroservicesOrdersAPI | awk '{print $2}')
-      echo "Detected ${OrderURL}"
-      echo "Getting CatalogAPI URL"
+      echo -e "${beer} ${Cyan}Detected ${OrderURL} ${no_color}"
+      echo -e "${delivery} ${Cyan}Getting CatalogAPI URL ${no_color}"
       CatalogURL=$(cf routes | grep -i MicroservicesCatalogAPI | awk '{print $2}')
-      echo "Detected ${CatalogURL}"
+      echo -e "${beer} ${Cyan}Detected ${CatalogURL} ${no_color}"
+      echo -e "${delivery} ${Cyan}Pushing MicroservicesUI ${no_color}"
       cf push MicroservicesUI --no-start
       cf set-env MicroservicesUI OrderURL ${OrderURL}
       cf set-env MicroservicesUI CatalogURL ${CatalogURL}
