@@ -1,9 +1,4 @@
 ---
-inherit: new-relic.yaml
-domain: mybluemix.net  
-env:
-  NEW_RELIC_LICENSE_KEY: 25ee64c9f73c984b1b004ee4381f107ef0453b3a
-  NEWRELIC_LICENSE: 25ee64c9f73c984b1b004ee4381f107ef0453b3a
 applications:
 - name: MicroservicesCatalogAPI
   memory: 256m
@@ -11,9 +6,7 @@ applications:
   random-route: true 
   path: Microservices_CatalogAPI
   services:
-  - myServiceDiscovery
   - myMicroservicesCloudant
-#  - New Relic
   env: 
     NEW_RELIC_APP_NAME: MicroservicesCatalogAPI
 - name: MicroservicesOrdersAPI
@@ -23,8 +16,6 @@ applications:
   memory: 96M
   services:
   - myMicroservicesCloudant
-  - myServiceDiscovery
-#  - New Relic
   env: 
     NEW_RELIC_APP_NAME: MicroservicesOrdersAPI
 - name: MicroservicesUI
@@ -32,20 +23,10 @@ applications:
   instances: 1
   random-route: true
   path: Microservices_UI
-  services:
-  - myServiceDiscovery
+#  services:
 #  - New Relic
 
 declared-services:
   myMicroservicesCloudant:
     label: cloudantNoSQLDB
-    plan: Shared
-  myServiceDiscovery:
-    label: service_discovery
-    plan: free
-  mqLightService:
-    label: mqlight
-    plan:  standard
-  myMicroservicesCloudant:
-    label: cloudantNoSQLDB
-    plan:  Shared
+    plan:  Lite

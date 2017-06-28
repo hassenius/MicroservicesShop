@@ -12,9 +12,6 @@ var items = require('./routes/items');
 
 var breakstuff = require('./routes/breakstuff')
 
-//Setup ServiceDiscovery
-var serviceDiscovery = require('./sd.js')
-
 //Setup middleware.
 var app = express();
 app.use(cors());
