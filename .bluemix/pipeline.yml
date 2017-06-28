@@ -3,7 +3,7 @@ stages:
 - name: BUILD
   inputs:
   - type: git
-    branch: PipelineTest
+    branch: master
   jobs:
   - name: Build
     type: builder

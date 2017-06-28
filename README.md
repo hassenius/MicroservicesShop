@@ -5,7 +5,7 @@ Based on the [Bluemix Microservices Sample Application](https://developer.ibm.co
 
 Enchanced by the use of [Bluemix Service Discovery](https://console.ng.bluemix.net/docs/services/ServiceDiscovery/index.html) to tie the miocroservice components together
 
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/hassenius/MicroservicesShopPipelineTest&branch=PipelineTest)
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/hassenius/MicroservicesShop)
 
 ## How to deploy the sample application
 1. $ git clone https://github.com/hassenius/MicroservicesShop.git
