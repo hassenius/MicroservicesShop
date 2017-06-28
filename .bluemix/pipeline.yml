@@ -43,6 +43,10 @@ stages:
     job: Build
   triggers:
   - type: stage
+  properties:
+  - name: NR_KEY
+    value: 'PASTE_NEW_RELIC_KEY_HERE_IF_YOU_HAVE_ONE'
+    type: text
   jobs:
   - name: Services
     type: deployer
