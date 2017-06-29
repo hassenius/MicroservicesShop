@@ -1,48 +1,47 @@
 # Microservices Shop
 
-Based on the [Bluemix Microservices Sample Application](https://developer.ibm.com/bluemix/2015/03/16/sample-application-using-microservices-bluemix/)
+## How to deploy the sample application
 
+Please note that this demonstration uses the New Relic Service instance available through Bluemix. 
+Only one New Relic Service instance is permitted per organisation in Bluemix. 
+If you already have a New Relic service instance it is necessary to either delete this service instance, 
+or make sure it is named NewRelic and exist in the same space as you deploy this application.
 
-Enchanced by the use of [Bluemix Service Discovery](https://console.ng.bluemix.net/docs/services/ServiceDiscovery/index.html) to tie the miocroservice components together
+### Deploy with DevOps Pipelines
+Click the button below to automatically deploy the Services and Applications using Bluemix DevOps Pipelines
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/hassenius/MicroservicesShop)
 
-## How to deploy the sample application
+### Deploy using script
 1. $ git clone https://github.com/hassenius/MicroservicesShop.git
 1. $ cd MicroservicesShop
 1. $ cf login
 1. $ ./deploy_all.sh
 
-This will create the necessary services and push the Bluemix runtimes necessary to run the application. After you have run this you can find the URL for the MicroservicesUI application by typing
-$ cf apps
+This will create the necessary services and push the Bluemix runtimes necessary to run the application. 
+After you have run this you can find the URL for the MicroservicesUI application by typing
+
+```$ cf apps```
+
 Connect to this URL in your webbrowser to verify that the application works and can get products from the MicroservicesCatalogAPI service.
 
-## How to instrument the application with New Relic
-The NewRelic branch is pre-instrumented with New Relic, so once you change to the NewRelic branch and insert the New Relic license key your application will start sending data to newrelic.com
+### Deploy manually
+1. $ git clone https://github.com/hassenius/MicroservicesShop.git
+1. $ cd MicroservicesShop
+1. $ cf login
+1. $ cf create-service cloudantNoSQLDB Lite myMicroservicesCloudant
+1. $ cf create-service newrelic standard NewRelic
+1. $ cf push MicroservicesCatalogAPI # Take note of route/url of the service
+1. $ cf push MicroservicesOrdersAPI # Take note of the route/url of the service
+1. $ cf push MicroservicesUI --no-start
+1. $ cf set-env MicroservicesUI OrderURL ```<insert orderservice_url from previous step>```
+1. $ cf set-env MicroservicesUI CatalogURL ```<insert catalogservice_url from previous step>```
+1. $ cf start MicroservicesUI
 
-1. Change to the NewRelic branch
-
-        $ git checkout NewRelic
-        
-2. use your favourite editor to update new-relic.yaml with your New Relic license key
-3. Push the new code to Bluemix
-        
-        $ cf push
 
 ## How to introduce some errors into the code to verify monitoring
-After you have updated new-relic.yaml with your license key, you can change to the VerrifyMonitoring branch, which introduces some errors into the Microservices_CatalogAPI code.
-
-1. Change to the VerifyMonitoring branch
-
-        $ git checkout VerifyMonitoring
-
-2. Push the new code for the MicroservicesCatalogAPI microservice
-
-        cf push MicroservicesCatalogAPI
-
-
-You now have some additional API calls you can use in the MicroservicesCatalogAPI which will generate various errors that you can see in Monitoring and Logging tools
-
+The MicroservicesCatalogAPI application includes some additional code in that triggers different errors that can be analysed using monitoring and logging tools. 
+Using your browser or curl you can make calls to a number of URLs to trigger specific errors.
 * https://MicroservicesCatalogAPI-URL/breakstuff/findUser/insert_anything_here
 
         This command will generate a application generated error in the error console. 
@@ -62,4 +61,4 @@ You now have some additional API calls you can use in the MicroservicesCatalogAP
 
 * https://MicroservicesCatalogAPI-URL>/breakstuff/leakMemory
         
-        This will set off a memory leak within the application, which will over time be visible as increased memory usage.
+        This will set off a memory leak within the application, which will over time be visible as increased memory usage, evenutally crashing the application triggering a Cloud Foundry container restart.
